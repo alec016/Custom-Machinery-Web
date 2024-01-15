@@ -275,7 +275,7 @@ export function GUIForm ({ values, setValues, setIsOpenedGUI, session, namespace
                     case 'custommachinery:infusion':
                     case 'custommachinery:pigment':
                     case 'custommachinery:slurry':
-                      return <ChemicalElement />
+                      return <ChemicalElement elements={elements} key={index} index={index} setValues={setValues} setElements={setElements} session={session} namespace={namespace} />
                     case 'custommachinery:dump':
                       return <DumpElement />
                     case 'custommachinery:energy':
