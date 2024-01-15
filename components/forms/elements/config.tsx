@@ -44,7 +44,7 @@ export function ConfigElement ({
     path: 'texture' | 'texture_hovered'
   }) {
     try {
-      const { data, error } = await supabase.storage.from('textures').upload(`${user?.id}/config/${path}/${img.name}`, img, { upsert: true })
+      const { data, error } = await supabase.storage.from('textures').upload(`${user?.id}/elements/config/${path}/${img.name}`, img, { upsert: true })
 
       if (error) {
         throw error
@@ -104,7 +104,7 @@ export function ConfigElement ({
           }}
           errorMessage={elements[index].getErrors().x && elements[index].getErrorMessages().x}
           color={elements[index].getErrors().x ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().x}
+          isInvalid={elements[index].getErrors().x as boolean}
         />
         {/* Y Position */}
         <Input
@@ -128,7 +128,7 @@ export function ConfigElement ({
           }}
           errorMessage={elements[index].getErrors().y && elements[index].getErrorMessages().y}
           color={elements[index].getErrors().y ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().y}
+          isInvalid={elements[index].getErrors().y as boolean}
         />
         {/* WIDTH */}
         <Input
@@ -152,7 +152,7 @@ export function ConfigElement ({
           }}
           errorMessage={elements[index].getErrors().width && elements[index].getErrorMessages().width}
           color={elements[index].getErrors().width ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().width}
+          isInvalid={elements[index].getErrors().width as boolean}
         />
         {/* HEIGHT */}
         <Input
@@ -176,7 +176,7 @@ export function ConfigElement ({
           }}
           errorMessage={elements[index].getErrors().height && elements[index].getErrorMessages().height}
           color={elements[index].getErrors().height ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().height}
+          isInvalid={elements[index].getErrors().height as boolean}
         />
         {/* PRIORITY */}
         <Input
@@ -200,7 +200,7 @@ export function ConfigElement ({
           }}
           errorMessage={elements[index].getErrors().priority && elements[index].getErrorMessages().priority}
           color={elements[index].getErrors().priority ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().priority}
+          isInvalid={elements[index].getErrors().priority as boolean}
         />
         {/* TEXTURE */}
         <Input
@@ -212,17 +212,17 @@ export function ConfigElement ({
           variant='flat'
           radius='md'
           disabled={updating}
-          onChange={event => {
+          onChange={async event => {
             if (!event.target.files || event.target.files.length === 0) {
               throw new Error('You must select an image to upload.')
             }
             setUpdating(true)
             const file = event.target.files[0]
-            updateImage({ img: file, path: 'texture' })
+            await updateImage({ img: file, path: 'texture' })
           }}
           errorMessage={elements[index].getErrors().texture && elements[index].getErrorMessages().texture}
           color={elements[index].getErrors().texture ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().texture}
+          isInvalid={elements[index].getErrors().texture as boolean}
         />
         {/* TEXTURE HOVERED */}
         <Input
@@ -234,17 +234,17 @@ export function ConfigElement ({
           variant='flat'
           radius='md'
           disabled={updating}
-          onChange={event => {
+          onChange={async event => {
             if (!event.target.files || event.target.files.length === 0) {
               throw new Error('You must select an image to upload.')
             }
             setUpdating(true)
             const file = event.target.files[0]
-            updateImage({ img: file, path: 'texture_hovered' })
+            await updateImage({ img: file, path: 'texture_hovered' })
           }}
           errorMessage={elements[index].getErrors().texture_hovered && elements[index].getErrorMessages().texture_hovered}
           color={elements[index].getErrors().texture_hovered ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().texture_hovered}
+          isInvalid={elements[index].getErrors().texture_hovered as boolean}
         />
         {/* Delete Buton */}
         <Button

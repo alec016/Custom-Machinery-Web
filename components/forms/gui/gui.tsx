@@ -270,7 +270,7 @@ export function GUIForm ({ values, setValues, setIsOpenedGUI, session, namespace
                     case 'custommachinery:config':
                       return <ConfigElement elements={elements} key={index} index={index} setValues={setValues} setElements={setElements} session={session} namespace={namespace} />
                     case 'custommachinery:button':
-                      return <ButtonElement />
+                      return <ButtonElement elements={elements} key={index} index={index} setValues={setValues} setElements={setElements} session={session} namespace={namespace} />
                     case 'custommachinery:gas':
                     case 'custommachinery:infusion':
                     case 'custommachinery:pigment':

@@ -1,36 +1,28 @@
 import { ElementType } from 'types'
 import GUIElement, { Element } from './GUIElement'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
+
+type Tooltip = {
+  text: string,
+  style?: {
+    bold?: boolean,
+    italic?: boolean,
+    underline?: boolean,
+    strikethrough?: boolean,
+    obfuscated?: boolean,
+    color?: string,
+    font?: string
+  }
+}
 
 type Json = Element.Json & {
   id: string,
   texture?: string,
   texture_hovered?: string,
   texture_toggle?: string,
-  tooltips?: (string | {
-    text: string,
-    style?: {
-      bold?: boolean,
-      italic?: boolean,
-      underline?: boolean,
-      strikethrough?: boolean,
-      obfuscated?: boolean,
-      color?: string,
-      font?: string
-    }
-  })[],
+  tooltips?: (string | Tooltip)[],
   toggle?: boolean,
-  text?: string | {
-    text: string,
-    style?: {
-      bold?: boolean,
-      italic?: boolean,
-      underline?: boolean,
-      strikethrough?: boolean,
-      obfuscated?: boolean,
-      color?: string,
-      font?: string
-    }
-  }
+  text?: string | Tooltip
   item?: string | {
     id: string,
     Count?: number,
@@ -44,16 +36,15 @@ class ButtonGUIElement extends GUIElement<Json> {
   private texture_hovered: string
   private toggle: boolean
   private id: string
-  private text: string | {
-    text: string,
-    color?: string
-  }
+  private text: Tooltip
 
-  private item: string | {
+  private item: {
     id: string,
     Count: number,
     tag?: string
   }
+
+  private tooltips: Tooltip[] = []
 
   constructor () {
     super(ElementType.BUTTON)
@@ -61,10 +52,25 @@ class ButtonGUIElement extends GUIElement<Json> {
     this.texture_toggle = ''
     this.texture_hovered = ''
     this.toggle = false
-    this.text = ''
-    this.item = ''
+    this.text = {
+      text: ''
+    }
+    this.item = {
+      id: '',
+      Count: 1
+    }
     this.id = ''
     this.validateErrors()
+  }
+
+  public getTooltips () {
+    return this.tooltips
+  }
+
+  public setTooltips (tooltips: Tooltip[]) {
+    this.tooltips = tooltips
+    this.validateErrors()
+    return this
   }
 
   public getId () {
@@ -121,7 +127,7 @@ class ButtonGUIElement extends GUIElement<Json> {
     return this.text
   }
 
-  public setText (text: string | { text: string, color?: string }) {
+  public setText (text: Tooltip) {
     this.text = text
     this.validateErrors()
     return this
@@ -131,7 +137,7 @@ class ButtonGUIElement extends GUIElement<Json> {
     return this.item
   }
 
-  public setItem (item : string | { id: string, Count: number, tag?: string }) {
+  public setItem (item : { id: string, Count: number, tag?: string }) {
     this.item = item
     this.validateErrors()
     return this
@@ -139,31 +145,72 @@ class ButtonGUIElement extends GUIElement<Json> {
 
   protected validateErrors (): void {
     super.validateErrors()
+
     if (this.id && this.id.trim() !== '') this.errors.id = false
-    else this.errors.id = true
-    if (this.texture && this.texture.trim() !== '') this.errors.texture = false
-    else this.errors.texture = true
-    if (this.texture_toggle && this.texture_toggle.trim() !== '') this.errors.texture_toggle = false
-    else this.errors.texture_toggle = true
-    if (this.texture_hovered && this.texture_hovered.trim() !== '') this.errors.texture_hovered = false
-    else this.errors.texture_hovered = true
-    if (typeof this.text === 'string') {
-      if (this.text.trim() !== '') this.errors.text = false
-      else this.errors.text = true
-    } else {
-      if (this.text && this.text.text.trim() !== '') this.errors.text = false
-      else this.errors.text = true
+    else {
+      this.errors.id = true
+      if (!this.id) this.errorMessages.id = 'Id property is required'
+      else if (this.id.trim() === '') this.errorMessages.id = 'Id property can not be empty'
     }
 
-    if (typeof this.item === 'string') {
-      if (this.item.trim() !== '') this.errors.item = false
-      else this.errors.item = true
-    } else {
-      if (this.item && this.item.id.trim() !== '') {
-        if (this.item.Count > 0) this.errors.item = false
-        else this.errors.item = true
-      } else this.errors.item = true
+    if (this.texture && this.texture.trim() !== '') this.errors.texture = false
+    else {
+      this.errors.texture = true
+      if (!this.texture) this.errorMessages.texture = 'Texture is required'
+      else if (this.texture.trim() === '') this.errorMessages.texture = 'Texture can not be empty'
     }
+
+    if (this.texture_toggle && this.texture_toggle.trim() !== '') this.errors.texture_toggle = false
+    else {
+      this.errors.texture_toggle = true
+      if (!this.texture_toggle) this.errorMessages.texture_toggle = 'Texture Toggle is required'
+      else if (this.texture_toggle.trim() === '') this.errorMessages.texture_toggle = 'Texture Toggle can not be empty'
+    }
+
+    if (this.texture_hovered && this.texture_hovered.trim() !== '') this.errors.texture_hovered = false
+    else {
+      this.errors.texture_hovered = true
+      if (!this.texture_hovered) this.errorMessages.texture_hovered = 'Texture Hovered is required'
+      else if (this.texture_hovered.trim() === '') this.errorMessages.texture_hovered = 'Texture Hovered can not be empty'
+    }
+
+    if (this.text && this.text.text.trim() !== '') this.errors.text = false
+    else {
+      this.errors.text = true
+      if (!this.text || !this.text.text) this.errorMessages.text = 'Text is required'
+      else if (this.text.text.trim() === '') this.errorMessages.text = 'Text can not be empty'
+    }
+
+    if (this.item && this.item.id.trim() !== '') {
+      if (this.item.Count > 0) this.errors.item = false
+      else {
+        this.errors.item = true
+        this.errorMessages.item = 'Item count must be greater than 0'
+      }
+    } else {
+      this.errors.item = true
+      if (!this.item || !this.item.id) this.errorMessages.item = 'Item id is required'
+      else if (this.item.id.trim() === '') this.errorMessages.item = 'Item id can not be empty'
+    }
+
+    this.errors.tooltips = [] as boolean[]
+    this.errorMessages.tooltips = [] as string[]
+    this.tooltips && this.tooltips.forEach((tooltip, index) => {
+      if (tooltip) {
+        if (!tooltip.text) {
+          (this.errors.tooltips as boolean[])[index] = true;
+          (this.errorMessages.tooltips as string[])[index] = 'Tooltip text is required'
+        } else if (tooltip.text.trim() === '') {
+          (this.errors.tooltips as boolean[])[index] = true;
+          (this.errorMessages.tooltips as string[])[index] = `Tooltip ${index + 1} can not be empty`
+        } else {
+          (this.errors.tooltips as boolean[])[index] = false
+        }
+      } else {
+        (this.errors.tooltips as boolean[])[index] = true;
+        (this.errorMessages.tooltips as string[])[index] = `Tooltip ${index + 1} is required`
+      }
+    })
   }
 
   public toJson () {
@@ -215,6 +262,28 @@ class ButtonGUIElement extends GUIElement<Json> {
       json = {
         ...json,
         item: this.getItem()
+      }
+    }
+
+    if (this.errors.tooltips) {
+      if (typeof this.errors.tooltips !== 'boolean') {
+        const tooltipsIndex = this.errors.tooltips.map((value, index) => {
+          if (!value) return index
+          return -1
+        })
+
+        const tooltips: Tooltip[] = []
+
+        tooltipsIndex.forEach(index => {
+          if (index !== -1) {
+            tooltips.push(this.tooltips[index])
+          }
+        })
+
+        json = {
+          ...json,
+          tooltips
+        }
       }
     }
 

@@ -18,11 +18,11 @@ class GUIElement<T extends Element.Json = Element.Json> {
   private height: number
   private priority: number
   protected errors: {
-    [x: string]: boolean
+    [x: string]: boolean | boolean[]
   } = {}
 
   protected errorMessages: {
-    [x: string]: string
+    [x: string]: string | string[]
   } = {}
 
   constructor (type: CustomMachineryLocation) {

@@ -50,7 +50,7 @@ export function ExperienceElement ({
     path: 'texture' | 'texture_hovered'
   }) {
     try {
-      const { data, error } = await supabase.storage.from('textures').upload(`${user?.id}/experience/${path}/${img.name}`, img, { upsert: true })
+      const { data, error } = await supabase.storage.from('textures').upload(`${user?.id}/elements/experience/${path}/${img.name}`, img, { upsert: true })
 
       if (error) {
         throw error
@@ -110,7 +110,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().x && elements[index].getErrorMessages().x}
           color={elements[index].getErrors().x ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().x}
+          isInvalid={elements[index].getErrors().x as boolean}
         />
         {/* Y Position */}
         <Input
@@ -134,7 +134,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().y && elements[index].getErrorMessages().y}
           color={elements[index].getErrors().y ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().y}
+          isInvalid={elements[index].getErrors().y as boolean}
         />
         {/* WIDTH */}
         <Input
@@ -158,7 +158,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().width && elements[index].getErrorMessages().width}
           color={elements[index].getErrors().width ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().width}
+          isInvalid={elements[index].getErrors().width as boolean}
         />
         {/* HEIGHT */}
         <Input
@@ -182,7 +182,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().height && elements[index].getErrorMessages().height}
           color={elements[index].getErrors().height ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().height}
+          isInvalid={elements[index].getErrors().height as boolean}
         />
         {/* PRIORITY */}
         <Input
@@ -206,7 +206,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().priority && elements[index].getErrorMessages().priority}
           color={elements[index].getErrors().priority ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().priority}
+          isInvalid={elements[index].getErrors().priority as boolean}
         />
         {/* TEXTURE */}
         <Input
@@ -228,7 +228,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().texture && elements[index].getErrorMessages().texture}
           color={elements[index].getErrors().texture ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().texture}
+          isInvalid={elements[index].getErrors().texture as boolean}
         />
         {/* TEXTURE HOVERED */}
         <Input
@@ -250,7 +250,7 @@ export function ExperienceElement ({
           }}
           errorMessage={elements[index].getErrors().texture_hovered && elements[index].getErrorMessages().texture_hovered}
           color={elements[index].getErrors().texture_hovered ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().texture_hovered}
+          isInvalid={elements[index].getErrors().texture_hovered as boolean}
         />
         {/* Display Mode */}
         <Dropdown>
