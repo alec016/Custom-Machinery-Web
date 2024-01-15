@@ -46,4 +46,4 @@ jobs:
           SUPABASE_SERVICE_ROLE_SECRET: ${{secrets.SUPABASE_SERVICE_ROLE_SECRET}}
           SUPABASE_JWT_SECRET: ${{secrets.SUPABASE_JWT_SECRET}}
           SUPABASE_DB_URL_CONECTION: ${{secrets.SUPABASE_DB_URL_CONECTION}}
-        run: npm run build
+        run: npm run build --stacktrace
