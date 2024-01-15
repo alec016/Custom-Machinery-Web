@@ -1,0 +1,56 @@
+name: CustomMachineryProduction
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+    branches:
+      - 'master'
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: true
+        type: choice
+        default: development
+        options:
+          - 'production'
+          - 'development'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.head_commit.message, 'skip') ||
+      !contains(github.event.head_commit.message, 'ci skip') ||
+      !contains(github.event.head_commit.message, '[ci skip]') ||
+      !contains(github.event.head_commit.message, '[skip]') ||
+      !contains(github.event.head_commit.message, '(ci skip)') ||
+      !contains(github.event.head_commit.message, '(skip)') ||
+      !contains(github.event.head_commit.message, '{ci skip}') ||
+      !contains(github.event.head_commit.message, '{skip}')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.10.0'
+
+      - name: Remove Build
+        uses: rm -rf ./.next
+
+      - name: Remove dependencies
+        uses: rm -rf ./node_modules
+
+      - name: Remove package-lock.json
+        uses: rm -rf ./package-lock.json
+
+      - name: Install dependencies
+        uses: npm i
+
+      - name: Build
+        uses: npm run build
