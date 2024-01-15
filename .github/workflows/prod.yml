@@ -3,10 +3,10 @@ name: CustomMachinery Web Production
 on:
   push:
     branches:
-      - 'master'
+      - 'web'
   workflow_dispatch:
     branches:
-      - 'master'
+      - 'web'
     inputs:
       release_type:
         description: 'Release type'
@@ -16,6 +16,7 @@ on:
         options:
           - 'production'
           - 'development'
+
 
 jobs:
   build:
