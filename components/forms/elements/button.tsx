@@ -8,7 +8,7 @@ import {
 } from '@nextui-org/react'
 
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import {
   ButtonGUIElement,
