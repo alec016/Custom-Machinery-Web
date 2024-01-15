@@ -53,7 +53,11 @@ class ButtonGUIElement extends GUIElement<Json> {
     this.texture_hovered = ''
     this.toggle = false
     this.text = {
-      text: ''
+      text: '',
+      style: {
+        color: 'white',
+        font: 'minecraft:default'
+      }
     }
     this.item = {
       id: '',
@@ -174,23 +178,48 @@ class ButtonGUIElement extends GUIElement<Json> {
       else if (this.texture_hovered.trim() === '') this.errorMessages.texture_hovered = 'Texture Hovered can not be empty'
     }
 
-    if (this.text && this.text.text.trim() !== '') this.errors.text = false
-    else {
-      this.errors.text = true
-      if (!this.text || !this.text.text) this.errorMessages.text = 'Text is required'
-      else if (this.text.text.trim() === '') this.errorMessages.text = 'Text can not be empty'
-    }
+    this.errors.text = []
+    this.errorMessages.text = []
 
-    if (this.item && this.item.id.trim() !== '') {
-      if (this.item.Count > 0) this.errors.item = false
-      else {
-        this.errors.item = true
-        this.errorMessages.item = 'Item count must be greater than 0'
+    if (this.text && this.text.text.trim() !== '') {
+      this.errors.text[0] = false
+      if (!this.text.style?.color) {
+        this.errors.text[1] = true
+        this.errorMessages.text[1] = 'Color can not be null'
+      } else {
+        this.errors.text[1] = false
+      }
+
+      if (!this.text.style?.font) {
+        this.errors.text[2] = true
+        this.errorMessages.text[2] = 'Font can not be null'
+      } else {
+        this.errors.text[2] = false
       }
     } else {
-      this.errors.item = true
-      if (!this.item || !this.item.id) this.errorMessages.item = 'Item id is required'
-      else if (this.item.id.trim() === '') this.errorMessages.item = 'Item id can not be empty'
+      this.errors.text[0] = true
+      if (!this.text || !this.text.text) {
+        this.errorMessages.text[0] = 'Text is required'
+      } else if (this.text.text.trim() === '') {
+        this.errorMessages.text[0] = 'Text can not be empty'
+      }
+    }
+
+    this.errors.item = []
+    this.errorMessages.item = []
+
+    if (this.item && this.item.id.trim() !== '') {
+      if (this.item.Count > 0) {
+        this.errors.item[0] = false
+        this.errors.item[1] = false
+      } else {
+        this.errors.item[1] = true
+        this.errorMessages.item[1] = 'Item count must be greater than 0'
+      }
+    } else {
+      this.errors.item[0] = true
+      if (!this.item || !this.item.id) this.errorMessages.item[0] = 'Item id is required'
+      else if (this.item.id.trim() === '') this.errorMessages.item[0] = 'Item id can not be empty'
     }
 
     this.errors.tooltips = [] as boolean[]
@@ -251,14 +280,14 @@ class ButtonGUIElement extends GUIElement<Json> {
       }
     }
 
-    if (!this.errors.text) {
+    if (this.errors.text && !(this.errors.text as boolean[]).some(value => value)) {
       json = {
         ...json,
         text: this.getText()
       }
     }
 
-    if (!this.errors.item) {
+    if (this.errors.item && !(this.errors.item as boolean[]).some(value => value)) {
       json = {
         ...json,
         item: this.getItem()

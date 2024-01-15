@@ -235,75 +235,6 @@ export function ButtonElement ({
           color={elements[index].getErrors().priority ? 'danger' : 'default'}
           isInvalid={elements[index].getErrors().priority as boolean}
         />
-        {/* TEXT */}
-        <Input
-          isClearable
-          label='Text'
-          name={`elements.${index}.text`}
-          min='0'
-          variant='flat'
-          radius='md'
-          defaultValue={`${(elements[index] as ButtonGUIElement).getText().text}`}
-          onValueChange={(value) => {
-            setElements(prev => {
-              prev[index] = (prev[index] as ButtonGUIElement).setText({
-                ...(prev[index] as ButtonGUIElement).getText(),
-                text: value
-              })
-              return prev
-            })
-            setValues(prev => ({
-              ...prev,
-              gui: elements
-            }))
-          }}
-          errorMessage={elements[index].getErrors().text && elements[index].getErrorMessages().text}
-          color={elements[index].getErrors().text ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().text as boolean}
-        />
-        {/* ITEM */}
-        <Input
-          isClearable
-          label='Item'
-          name={`elements.${index}.item`}
-          min='0'
-          variant='flat'
-          radius='md'
-          defaultValue={`${(elements[index] as ButtonGUIElement).getItem().id}`}
-          onValueChange={(value) => {
-            setElements(prev => {
-              prev[index] = (prev[index] as ButtonGUIElement).setItem({
-                ...(prev[index] as ButtonGUIElement).getItem(),
-                id: value
-              })
-              return prev
-            })
-            setValues(prev => ({
-              ...prev,
-              gui: elements
-            }))
-          }}
-          errorMessage={elements[index].getErrors().item && elements[index].getErrorMessages().item}
-          color={elements[index].getErrors().item ? 'danger' : 'default'}
-          isInvalid={elements[index].getErrors().item as boolean}
-        />
-        {/* Toggle */}
-        <Switch
-          defaultSelected={(elements[index] as ButtonGUIElement).getToggle() ?? false}
-          color='success'
-          onValueChange={(selected) => {
-            setElements(prev => {
-              prev[index] = (prev[index] as ButtonGUIElement).setToggle(selected)
-              return prev
-            })
-            setValues(prev => ({
-              ...prev,
-              gui: elements
-            }))
-          }}
-        >
-          Toggle
-        </Switch>
         {/* TEXTURE */}
         <Input
           isClearable
@@ -370,6 +301,290 @@ export function ButtonElement ({
           color={elements[index].getErrors().texture_toggle ? 'danger' : 'default'}
           isInvalid={elements[index].getErrors().texture_toggle as boolean}
         />
+        {/* Toggle */}
+        <Switch
+          defaultSelected={(elements[index] as ButtonGUIElement).getToggle() ?? false}
+          color='success'
+          onValueChange={(selected) => {
+            setElements(prev => {
+              prev[index] = (prev[index] as ButtonGUIElement).setToggle(selected)
+              return prev
+            })
+            setValues(prev => ({
+              ...prev,
+              gui: elements
+            }))
+          }}
+        >
+          Toggle
+        </Switch>
+        {/* TEXT */}
+        <div className='col-span-5'>
+          Text
+          <div className='mt-2 pt-3 grid grid-cols-5 gap-3 justify-center items-center border border-default-100 border-solid p-2 rounded-md'>
+            <Input
+              isClearable
+              label='Text'
+              name={`elements.${index}.text.text`}
+              min='0'
+              variant='flat'
+              radius='md'
+              defaultValue={`${(elements[index] as ButtonGUIElement).getText().text}`}
+              onValueChange={(value) => {
+                setElements(prev => {
+                  prev[index] = (prev[index] as ButtonGUIElement).setText({
+                    ...(prev[index] as ButtonGUIElement).getText(),
+                    text: value
+                  })
+                  return prev
+                })
+                setValues(prev => ({
+                  ...prev,
+                  gui: elements
+                }))
+              }}
+              errorMessage={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[0] && elements[index].getErrorMessages().text && (elements[index].getErrorMessages().text as string[])[0]}
+              color={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[0] ? 'danger' : 'default'}
+              isInvalid={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[0]}
+            />
+            {/* BOOLEAN STYLE */}
+            <div className='col-span-4 mt-2 pt-3 grid grid-cols-5 gap-3 justify-center items-center border border-default-100 border-solid p-2 rounded-md'>
+              {/* BOLD */}
+              <Switch
+                defaultSelected={(elements[index] as ButtonGUIElement).getText().style?.bold ?? false}
+                color='success'
+                onValueChange={(selected) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText().style,
+                        bold: selected
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+              >
+                Bold
+              </Switch>
+              {/* ITALIC */}
+              <Switch
+                defaultSelected={(elements[index] as ButtonGUIElement).getText().style?.italic ?? false}
+                color='success'
+                onValueChange={(selected) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText().style,
+                        italic: selected
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+              >
+                Italic
+              </Switch>
+              {/* UNDERLINE */}
+              <Switch
+                defaultSelected={(elements[index] as ButtonGUIElement).getText().style?.underline ?? false}
+                color='success'
+                onValueChange={(selected) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText().style,
+                        underline: selected
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+              >
+                Underline
+              </Switch>
+              {/* STRIKETHROUGH */}
+              <Switch
+                defaultSelected={(elements[index] as ButtonGUIElement).getText().style?.strikethrough ?? false}
+                color='success'
+                onValueChange={(selected) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText().style,
+                        strikethrough: selected
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+              >
+                Strikethrough
+              </Switch>
+              {/* OBFUSCATED */}
+              <Switch
+                defaultSelected={(elements[index] as ButtonGUIElement).getText().style?.obfuscated ?? false}
+                color='success'
+                onValueChange={(selected) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText().style,
+                        obfuscated: selected
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+              >
+                Obfuscated
+              </Switch>
+            </div>
+            {/* TEXT STYLE */}
+            <div className='col-span-5 mt-2 pt-3 grid grid-cols-2 gap-3 justify-center items-center border border-default-100 border-solid p-2 rounded-md'>
+              <Input
+                isClearable
+                label='Color'
+                name={`elements.${index}.text.style.color`}
+                min='0'
+                variant='flat'
+                radius='md'
+                description='Color id or Hex color'
+                defaultValue={`${(elements[index] as ButtonGUIElement).getText().style?.color}`}
+                onValueChange={(value) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText(),
+                        color: value
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+                errorMessage={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[1] && elements[index].getErrorMessages().text && (elements[index].getErrorMessages().text as string[])[1]}
+                color={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[1] ? 'danger' : 'default'}
+                isInvalid={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[1]}
+              />
+              <Input
+                isClearable
+                label='Font'
+                name={`elements.${index}.text.style.font`}
+                min='0'
+                variant='flat'
+                radius='md'
+                description='Font resource location'
+                defaultValue={`${(elements[index] as ButtonGUIElement).getText().style?.font}`}
+                onValueChange={(value) => {
+                  setElements(prev => {
+                    prev[index] = (prev[index] as ButtonGUIElement).setText({
+                      ...(prev[index] as ButtonGUIElement).getText(),
+                      style: {
+                        ...(prev[index] as ButtonGUIElement).getText(),
+                        font: value
+                      }
+                    })
+                    return prev
+                  })
+                  setValues(prev => ({
+                    ...prev,
+                    gui: elements
+                  }))
+                }}
+                errorMessage={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[2] && elements[index].getErrorMessages().text && (elements[index].getErrorMessages().text as string[])[2]}
+                color={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[2] ? 'danger' : 'default'}
+                isInvalid={elements[index].getErrors().text && (elements[index].getErrors().text as boolean[])[2]}
+              />
+            </div>
+          </div>
+        </div>
+        {/* ITEM */}
+        <div className='col-span-5'>
+          Item
+          <div className='mt-2 pt-3 grid grid-cols-2 gap-3 justify-center items-center border border-default-100 border-solid p-2 rounded-md'>
+            <Input
+              isClearable
+              label='Item Id'
+              name={`elements.${index}.id`}
+              min='0'
+              variant='flat'
+              radius='md'
+              defaultValue={`${(elements[index] as ButtonGUIElement).getItem().id}`}
+              onValueChange={(value) => {
+                setElements(prev => {
+                  prev[index] = (prev[index] as ButtonGUIElement).setItem({
+                    ...(prev[index] as ButtonGUIElement).getItem(),
+                    id: value
+                  })
+                  return prev
+                })
+                setValues(prev => ({
+                  ...prev,
+                  gui: elements
+                }))
+              }}
+              errorMessage={elements[index].getErrors().item && (elements[index].getErrors().item as boolean[])[0] && elements[index].getErrorMessages().item && (elements[index].getErrorMessages().item as string[])[0]}
+              color={elements[index].getErrors().item && (elements[index].getErrors().item as boolean[])[0] ? 'danger' : 'default'}
+              isInvalid={elements[index].getErrors().item && (elements[index].getErrors().item as boolean[])[0]}
+            />
+            <Input
+              isClearable
+              label='Item Count'
+              type='number'
+              name={`elements.${index}.item.Count`}
+              min='1'
+              variant='flat'
+              radius='md'
+              defaultValue={`${(elements[index] as ButtonGUIElement).getItem().Count}`}
+              onValueChange={(value) => {
+                setElements(prev => {
+                  prev[index] = (prev[index] as ButtonGUIElement).setItem({
+                    ...(prev[index] as ButtonGUIElement).getItem(),
+                    Count: parseInt(value)
+                  })
+                  return prev
+                })
+                setValues(prev => ({
+                  ...prev,
+                  gui: elements
+                }))
+              }}
+              errorMessage={elements[index].getErrors().item && (elements[index].getErrors().item as boolean[])[1] && elements[index].getErrorMessages().item && (elements[index].getErrorMessages().item as string[])[1]}
+              color={elements[index].getErrors().item && (elements[index].getErrors().item as boolean[])[1] ? 'danger' : 'default'}
+              isInvalid={elements[index].getErrors().item && (elements[index].getErrors().item as boolean[])[1]}
+            />
+          </div>
+        </div>
         {/* Tooltips */}
         <div className='grid grid-cols-4 gap-3 col-span-5 box-border justify-center items-center'>
           {
