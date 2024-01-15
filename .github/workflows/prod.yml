@@ -44,4 +44,13 @@ jobs:
         run: npm i
 
       - name: Build
+        env:
+          GIT_COMMIT: ${{ github.event.after }}
+          GIT_PREVIOUS_COMMIT: ${{ github.event.before }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}
+          SUPABASE_DB_PASSWORD: ${{secrets.SUPABASE_DB_PASSWORD}}
+          SUPABASE_SERVICE_ROLE_SECRET: ${{secrets.SUPABASE_SERVICE_ROLE_SECRET}}
+          SUPABASE_JWT_SECRET: ${{secrets.SUPABASE_JWT_SECRET}}
+          SUPABASE_DB_URL_CONECTION: ${{secrets.SUPABASE_DB_URL_CONECTION}}
         run: npm run build
