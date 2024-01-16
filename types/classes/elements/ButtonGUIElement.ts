@@ -1,6 +1,5 @@
 import { ElementType } from 'types'
 import GUIElement, { Element } from './GUIElement'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
 
 type Tooltip = {
   text: string,
