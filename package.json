@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "push": "git commit -am update && git push -u origin web",
-    "push:skip": "git commit -am \"update [ci skip]\" & ghit push -u origin web"
+    "push:skip": "git commit -am \"update [ci skip]\" & git push -u origin web"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
