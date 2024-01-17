@@ -30,7 +30,8 @@ import {
   StatusGUIElement,
   TextGUIElement,
   TextureGUIElement,
-  ExperienceGUIElement
+  ExperienceGUIElement,
+  versions
 } from 'types'
 
 import {
@@ -65,10 +66,11 @@ type GUIFormParams = {
   namespace?: string
   setValues: Dispatch<SetStateAction<Machine>>
   setIsOpenedGUI: Dispatch<SetStateAction<boolean>>,
-  session: Session | null
+  session: Session | null,
+  version: '1.16' | '1.18' | '1.19'
 }
 
-export function GUIForm ({ values, setValues, setIsOpenedGUI, session, namespace }: GUIFormParams) {
+export function GUIForm ({ values, setValues, setIsOpenedGUI, session, namespace, version }: GUIFormParams) {
   const [elements, setElements] = useState<GUIElement[]>(values.gui ?? [])
   const [isOpenedPreview, setIsOpenedPreview] = useState(false)
 
@@ -105,162 +107,230 @@ export function GUIForm ({ values, setValues, setIsOpenedGUI, session, namespace
             GUI MODAL
             {/* ADD BUTTONS */}
             <div className='grid grid-cols-4 w-[90%] p-3 gap-3'>
-              <Button
-                onClick={() => {
-                  if (elements.length === 0) {
-                    setElements(prev => [...prev, new ConfigGUIElement()])
-                    return
-                  }
-                  if (elements.find(element => element instanceof ConfigGUIElement)) {
-                    onConfigOpen()
-                    return
-                  }
-                  setElements(prev => [...prev, new ConfigGUIElement()])
-                }}
-              >
-                Add Config Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new ButtonGUIElement()])
-                }}
-              >
-                Add Button Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new ChemicalGUIElement('GAS')])
-                }}
-              >
-                Add Chemical Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new DumpGUIElement()])
-                }}
-              >
-                Add Dump Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new EnergyGUIElement()])
-                }}
-              >
-                Add Energy Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new FluidGUIElement()])
-                }}
-              >
-                Add Fluid Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new FuelGUIElement()])
-                }}
-              >
-                Add Fuel Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new HeatGUIElement()])
-                }}
-              >
-                Add Heat Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new PlayerInventoryGUIElement()])
-                }}
-              >
-                Add Player Inventory Element
-              </Button>
-              <Button
-                onClick={() => {
-                  if (elements.length === 0) {
-                    setElements(prev => [...prev, new ProgressGUIElement()])
-                    return
-                  }
-                  if (elements.find(element => element instanceof ProgressGUIElement)) {
-                    onProgressOpen()
-                    return
-                  }
-                  setElements(prev => [...prev, new ProgressGUIElement()])
-                }}
-              >
-                Add Progress Element
-              </Button>
-              <Button
-                onClick={() => {
-                  if (elements.length === 0) {
-                    setElements(prev => [...prev, new ResetGUIElement()])
-                    return
-                  }
-                  if (elements.find(element => element instanceof ResetGUIElement)) {
-                    onResetOpen()
-                    return
-                  }
+              {
+                versions[version].elements.filter(element => element === 'Config').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      if (elements.length === 0) {
+                        setElements(prev => [...prev, new ConfigGUIElement()])
+                        return
+                      }
+                      if (elements.find(element => element instanceof ConfigGUIElement)) {
+                        onConfigOpen()
+                        return
+                      }
+                      setElements(prev => [...prev, new ConfigGUIElement()])
+                    }}
+                  >
+                    Add Config Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Button').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new ButtonGUIElement()])
+                    }}
+                  >
+                    Add Button Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Chemical').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new ChemicalGUIElement('GAS')])
+                    }}
+                  >
+                    Add Chemical Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Dump').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new DumpGUIElement()])
+                    }}
+                  >
+                    Add Dump Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Energy').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new EnergyGUIElement()])
+                    }}
+                  >
+                    Add Energy Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Fluid').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new FluidGUIElement()])
+                    }}
+                  >
+                    Add Fluid Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Fuel').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new FuelGUIElement()])
+                    }}
+                  >
+                    Add Fuel Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Heat').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new HeatGUIElement()])
+                    }}
+                  >
+                    Add Heat Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'PlayerInventory').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new PlayerInventoryGUIElement()])
+                    }}
+                  >
+                    Add Player Inventory Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Progress').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      if (elements.length === 0) {
+                        setElements(prev => [...prev, new ProgressGUIElement()])
+                        return
+                      }
+                      if (elements.find(element => element instanceof ProgressGUIElement)) {
+                        onProgressOpen()
+                        return
+                      }
+                      setElements(prev => [...prev, new ProgressGUIElement()])
+                    }}
+                  >
+                    Add Progress Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Reset').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      if (elements.length === 0) {
+                        setElements(prev => [...prev, new ResetGUIElement()])
+                        return
+                      }
+                      if (elements.find(element => element instanceof ResetGUIElement)) {
+                        onResetOpen()
+                        return
+                      }
 
-                  setElements(prev => [...prev, new ResetGUIElement()])
-                }}
-              >
-                Add Reset Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new SizeGUIElement()])
-                }}
-              >
-                Add Size Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new SlotGUIElement()])
-                }}
-              >
-                Add Slot Element
-              </Button>
-              <Button
-                onClick={() => {
-                  if (elements.length === 0) {
-                    setElements(prev => [...prev, new StatusGUIElement()])
-                    return
-                  }
-                  if (elements.find(element => element instanceof StatusGUIElement)) {
-                    onStatusOpen()
-                    return
-                  }
-                  setElements(prev => [...prev, new StatusGUIElement()])
-                }}
-              >
-                Add Status Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new TextGUIElement()])
-                }}
-              >
-                Add Text Element
-              </Button>
-              <Button
-                onClick={() => {
-                  setElements(prev => [...prev, new TextureGUIElement()])
-                }}
-              >
-                Add Texture Element
-              </Button>
-              <Button
-                onClick={() => {
-                  if (elements.length === 0) {
-                    setElements(prev => [...prev, new ExperienceGUIElement()])
-                    return
-                  }
-                  setElements(prev => [...prev, new ExperienceGUIElement()])
-                }}
-              >
-                Add Experience Element
-              </Button>
+                      setElements(prev => [...prev, new ResetGUIElement()])
+                    }}
+                  >
+                    Add Reset Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Size').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new SizeGUIElement()])
+                    }}
+                  >
+                    Add Size Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Slot').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new SlotGUIElement()])
+                    }}
+                  >
+                    Add Slot Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Status').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      if (elements.length === 0) {
+                        setElements(prev => [...prev, new StatusGUIElement()])
+                        return
+                      }
+                      if (elements.find(element => element instanceof StatusGUIElement)) {
+                        onStatusOpen()
+                        return
+                      }
+                      setElements(prev => [...prev, new StatusGUIElement()])
+                    }}
+                  >
+                    Add Status Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Text').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new TextGUIElement()])
+                    }}
+                  >
+                    Add Text Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Texture').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      setElements(prev => [...prev, new TextureGUIElement()])
+                    }}
+                  >
+                    Add Texture Element
+                  </Button>
+                )
+              }
+              {
+                versions[version].elements.filter(element => element === 'Experience').length > 0 && (
+                  <Button
+                    onClick={() => {
+                      if (elements.length === 0) {
+                        setElements(prev => [...prev, new ExperienceGUIElement()])
+                        return
+                      }
+                      setElements(prev => [...prev, new ExperienceGUIElement()])
+                    }}
+                  >
+                    Add Experience Element
+                  </Button>
+                )
+              }
             </div>
             {/* ELEMENTS RENDERED */}
             <div>

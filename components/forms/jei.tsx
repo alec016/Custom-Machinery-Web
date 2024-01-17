@@ -11,10 +11,11 @@ import {
 type JEIFormParams = {
   values: Machine
   setValues: Dispatch<SetStateAction<Machine>>
-  setIsOpenedJEI: Dispatch<SetStateAction<boolean>>
+  setIsOpenedJEI: Dispatch<SetStateAction<boolean>>,
+  version: '1.16' | '1.18' | '1.19'
 }
 
-export function JEIForm ({ values, setValues, setIsOpenedJEI }: JEIFormParams) {
+export function JEIForm ({ values, setValues, setIsOpenedJEI, version }: JEIFormParams) {
   const [elements, setElements] = useState<GUIElement[]>(values.jei ?? [])
 
   useEffect(() => {

@@ -336,6 +336,7 @@ export function ModelForm ({ params: { version, type }, session }: { params: { v
                 setIsOpenedComponents={setIsOpenedComponents}
                 values={values}
                 setValues={setValues}
+                version={version}
               />
           }
           <Button
@@ -358,6 +359,7 @@ export function ModelForm ({ params: { version, type }, session }: { params: { v
                 setValues={setValues}
                 session={session}
                 namespace={namespace}
+                version={version}
               />
           }
           <Button
@@ -378,6 +380,7 @@ export function ModelForm ({ params: { version, type }, session }: { params: { v
                 setIsOpenedJEI={setIsOpenedJEI}
                 values={values}
                 setValues={setValues}
+                version={version}
               />
           }
           <Button
